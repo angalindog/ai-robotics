@@ -17,6 +17,7 @@ root((Comportamientos))
             Revisar a diario calbración de llantas
             Estar atento a ruidos anormales en el trayecto
             Usar bloqueador solar
+            Cubrir la cara con balaclava
         Transmilenio
             Recargar entre-semana en hora valle
             Usar el morral al frente
@@ -25,9 +26,12 @@ root((Comportamientos))
     Universidad
         No usar redes sociales
         Tener siempre hoja y esfero
+        Estar atento a correo institucional
 ```
 
 ## Respuesta 3
+
+Para realizar la simulación podemos hacer uso de la herramienta vista en clase NetLogo Web, donde se crea un nuevo modelo con el siguiente código:
 
 ```
 turtles-own [
@@ -95,3 +99,7 @@ to go
   tick
 end
 ```
+
+Para la interfaz se usa un botón de "setup" o configuración del entorno, y un botón "go", para iniciar el movimiento.
+
+![Animación del resultado obtenido](/assignments/doc-02/netLogoEX.gif)
