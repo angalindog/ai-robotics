@@ -93,3 +93,23 @@ for c in range(3):
 ## Respuesta 3
 
 <!-- Suponga que tiene un robot que le entrega galletas al grupo de ingenieros de diseño de robots. Programe por PG el recorrido del robot, teniendo en cuenta que cada vez que un ingeniero recibe  una galleta gana puntos. Los ingenieros están distribuidos en una sala cuadrada. Defina, conjunto de terminales, conjunto de funciones y función de aptitud. -->
+
+Las acciones (o terminales) principales que ejecutaría el robot para cumplir la función serían:
+
+- Avanzar
+- Girar
+  - Izquierda
+  - Derecha
+- Detectar ingeniero
+- Entregar galleta
+
+Como conjunto de funciones, al robot se le pueden asignar:
+
+- **Secuencia repetitiva**: Que ejecute el movimiento del robot, de tal manera que avance y haga giros, buscando que cubra toda el área, para asegurarse de encontrar a todos los ingenieros.
+- **Condicional**: Que evalúe si el robot tiene en su cercanía a un ingeniero, que dado el caso que sea verdadero, le entrega una galleta; de lo contrario, sigue avanzando y girando según la secuencia repetitiva anteriormente descrita.
+
+Por último, la función de aptitud del robot, constaría de 3 partes:
+
+- Recompensa por cada galleta entregada
+- Penalización por golpes con las paredes de la sala
+- Penalización por exceso de tiempo transcurrido
