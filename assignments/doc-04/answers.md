@@ -92,8 +92,6 @@ for c in range(3):
 
 ## Respuesta 3
 
-<!-- Suponga que tiene un robot que le entrega galletas al grupo de ingenieros de diseño de robots. Programe por PG el recorrido del robot, teniendo en cuenta que cada vez que un ingeniero recibe  una galleta gana puntos. Los ingenieros están distribuidos en una sala cuadrada. Defina, conjunto de terminales, conjunto de funciones y función de aptitud. -->
-
 Las acciones (o terminales) principales que ejecutaría el robot para cumplir la función serían:
 
 - Avanzar
