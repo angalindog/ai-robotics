@@ -2,7 +2,7 @@
 
 ## Respuesta 1
 
-Partimos del código original en un [Notebook de python](/assignments/doc-05/Clase_NNA3.ipynb), para generar un [archivo python](/assignments/doc-05/Clase_NNA3.py) donde podremos depurar y trabajar en la solución del problema
+Partimos del código original en un [Notebook de python](/assignments/doc-05/Clase_NNA3.ipynb), para generar un [archivo python](/assignments/doc-05/1_Clase_NNA3.py) donde podremos depurar y trabajar en la solución del problema
 
 Generamos un nuevo arreglo `X` para los datos de entrenamiento:
 
@@ -76,3 +76,33 @@ while i < 50000:
     [1 0] [[0.98234536]]
     [1 1] [[0.01831342]]
     ```
+
+## Respuesta 2
+
+En el dataset MNIST se tienen 10 clases distintas de ropa:
+
+1. Abrigo
+2. Pullover
+3. Camiseta
+4. Camisa
+5. Pantalón
+6. Vestido
+7. Sandalia
+8. Zapatilla
+9.  Bota
+10. Bolso
+
+El código se estructura en su respectivo [archivo python](/assignments/doc-05/2_Fashion.py), y se documenta en un [Notebook propio](/assignments/doc-05/fashion.ipynb)
+
+Se obtiene `Precision: 0.8780999779701233` de los códigos realizados, es decir una precisión del $87.8%$. Y como resultado de la comparación de los valores obtenidos:
+
+```
+Prediccion: 9
+Real: 9
+```
+
+Con la normalización de los datos resulta un mejor estandar para el modelo desarrollado, a pesar de las similitudes que tienen algunas de las categorías, las cuales pueden ser las mayores causantes de reducción de la precisión del modelo.
+
+## Respuesta 3
+
+<!-- Consiga un data set de cualquier tipo, puede ser de [Kaggle](https://www.kaggle.com/datasets), estudie sus características (features), y su rótulo. Diseñe una red neuronal y haga ejemplos con base en los pesos aprendidos. -->
