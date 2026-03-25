@@ -124,12 +124,21 @@ print("Path to dataset files:", path)
 
 ### Features / Características (X)
 
+Elementos de alimentación o aprendizaje para la red neuronal.
+
 - Domestic lifetime gross
 - Domestic percentage
 - Foreign lifetime gross
 - Foreign percentage
+- Worldwide lifetime gross
 - Year
 
 ### Rótulo (Y)
 
-- Worldwide lifetime gross
+Elemento a ser predecido por la red neuronal, basado en las características.
+
+- Movie success / Éxito de la película
+  - Dometic success
+  - Foreign success
+
+Inicialmente, con base en la recaudación a nivel mundial, se puede establecer una cantidad específica, la cuál indique que si se supera dicha cantidad, la película es un éxito, y se puede llegar a profundizar en el análisis, donde con base en los porcentajes locales, y extranjeros, se podría determinar si el éxito fue mayor a nivel local, extranjero, o mundial.
