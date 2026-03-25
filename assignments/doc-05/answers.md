@@ -106,3 +106,30 @@ Con la normalización de los datos resulta un mejor estandar para el modelo desa
 ## Respuesta 3
 
 <!-- Consiga un data set de cualquier tipo, puede ser de [Kaggle](https://www.kaggle.com/datasets), estudie sus características (features), y su rótulo. Diseñe una red neuronal y haga ejemplos con base en los pesos aprendidos. -->
+
+**Dataset seleccionado:** Grossing movies worldwide from Box Office Mojo - Recaudación de peliculas a nivel mundial por Box Office Mojo
+
+- [Enlace del dataset](https://www.kaggle.com/datasets/muhammadaqeelkabir/grossing-movies-worldwide-from-box-office-mojo/data)
+- [Archivo del dataset](/assignments/doc-05/box_office_dataset.csv)
+- Dataset con API
+
+```py
+import kagglehub
+
+# Download latest version
+path = kagglehub.dataset_download("muhammadaqeelkabir/grossing-movies-worldwide-from-box-office-mojo")
+
+print("Path to dataset files:", path)
+```
+
+### Features / Características (X)
+
+- Domestic lifetime gross
+- Domestic percentage
+- Foreign lifetime gross
+- Foreign percentage
+- Year
+
+### Rótulo (Y)
+
+- Worldwide lifetime gross
