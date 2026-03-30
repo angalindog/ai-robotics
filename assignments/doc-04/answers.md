@@ -90,6 +90,528 @@ for c in range(3):
   print(outputs[c])
 ```
 
+## Respuesta 2
+
+---
+
+## Tabla de Contenidos
+
+1. [¿Qué es la Programación Genética?](#1-qué-es-la-programación-genética)
+2. [Conceptos Básicos y los 6 Pasos](#2-conceptos-básicos-y-los-6-pasos)
+3. [Estructuras de Datos: Árboles](#3-estructuras-de-datos-árboles)
+4. [Recorrido de Árboles Binarios](#4-recorrido-de-árboles-binarios)
+5. [Operadores Genéticos](#5-operadores-genéticos)
+6. [Ejecución del Programa-Árbol](#6-ejecución-del-programa-árbol)
+7. [Aplicaciones](#7-aplicaciones)
+8. [Regresión Simbólica](#8-regresión-simbólica)
+9. [MEP: Múltiples Expresiones en un Cromosoma](#9-mep-múltiples-expresiones-en-un-cromosoma)
+10. [PG vs IA Generativa](#10-pg-vs-ia-generativa)
+11. [Ejercicio 2: Diseño de Circuito Lógico (Codificador 7 Segmentos)](#11-ejercicio-2-diseño-de-circuito-lógico)
+12. [Ejercicio 4: Control Aplicando PG (Péndulo Invertido)](#12-ejercicio-4-control-aplicando-pg)
+
+---
+
+## 1. ¿Qué es la Programación Genética?
+
+### Definición
+
+La **Programación Genética (PG)** es un paradigma de la computación evolutiva inspirada el modelo de evolución de Darwin en el que la unidad de evolución **no es una cadena de bits** (como en los Algoritmos Genéticos clásicos), sino **un programa de computador completo**, representado como un árbol.
+
+> **En pocas palabras:** en lugar de evolucionar números o cadenas para encontrar una solución, evolucionamos _programas_ que **resuelven el problema por sí mismos**.
+
+### Analogía: La Cocina Evolutiva
+
+Imagina que quieres encontrar la **mejor receta de pan** sin saber nada de cocina. En vez de probar manualmente miles de combinaciones, haces esto:
+
+1. Creas **100 recetas al azar** (población inicial).
+2. Las horneas todas y pruebas cuál sabe mejor (**función de aptitud**).
+3. Las mejores recetas se **reproducen**: intercambias pasos entre ellas (**cruce**).
+4. De vez en cuando cambias un ingrediente al azar (**mutación**).
+5. Repites el proceso por **500 generaciones**.
+6. Al final, tienes una receta excelente.
+
+Eso es exactamente lo que hace la PG, pero con programas.
+
+### Características Clave
+
+| Característica              | Descripción                                                        |
+| --------------------------- | ------------------------------------------------------------------ |
+| **Material no lineal**      | Los cromosomas son árboles, no listas                              |
+| **Longitud variable**       | El árbol puede crecer o reducirse                                  |
+| **Ejecutable**              | El genotipo ES el fenotipo — el árbol se puede correr directamente |
+| **Cruce preserva sintaxis** | Los hijos siempre son programas válidos                            |
+
+### PG vs Algoritmo Genético Clásico
+
+```
+Algoritmo Genético:
+  Cromosoma = [1, 0, 1, 1, 0, 0, 1]  (cadena fija de bits)
+  Solución  = un valor numérico
+
+Programación Genética:
+  Cromosoma = árbol que representa (a+b) * (c^e) + f
+  Solución  = un PROGRAMA completo
+```
+
+---
+
+## 2. Conceptos Básicos y los 6 Pasos
+
+### La Gran Pregunta
+
+> _¿Cómo pueden aprender los computadores a resolver problemas sin ser programados explícitamente?_
+
+La PG responde a esto dejando que los programas **evolucionen** hacia la solución.
+
+### Los 6 Pasos Preparatorios
+
+#### Paso 1: Definir el Problema
+
+Claridad total sobre qué se quiere resolver. Ejemplos:
+
+- Encontrar la ecuación que describe datos experimentales (regresión simbólica)
+- Diseñar un circuito lógico
+- Controlar un robot
+
+#### Paso 2: Conjunto de Terminales (T)
+
+Son las **hojas del árbol** — las entradas al programa.
+
+```
+Ejemplo para regresión: T = {x1, x2, a, b, c}  (variables y constantes)
+Ejemplo para lógica:    T = {A, B, C, 0, 1}     (variables booleanas)
+```
+
+**Analogía:** Los terminales son los _ingredientes_ de la receta (harina, agua, sal). Sin ellos no hay receta.
+
+#### Paso 3: Conjunto de Funciones (F)
+
+Son los **nodos internos del árbol** — las operaciones.
+
+```
+Aritmética:  F = {+, -, *, /}
+Matemática:  F = {sin, cos, sqrt, log}
+Lógica:      F = {AND, OR, NOT, XOR}
+Control:     F = {IF-THEN, WHILE, integra, deriva}
+```
+
+**Propiedad de Clausura:** Cada función debe poder aceptar como argumento la salida de cualquier otra función del conjunto. Esto garantiza que cualquier árbol generado sea un programa válido.
+
+#### Paso 4: Función de Aptitud
+
+Mide qué tan bueno es cada programa. Cuanto mayor sea la aptitud, mayor la probabilidad de reproducirse.
+
+```python
+# Ejemplo: regresión simbólica
+f_apt = 1 / (0.1 + sum(|y_real - y_calculado|))
+# Si error = 0 → f_apt = 10 (máximo)
+# Si error = 6.5 → f_apt = 0.1515
+```
+
+**Analogía:** Es el juez del concurso de cocina. Le da una puntuación a cada receta.
+
+#### Paso 5: Parámetros de Control
+
+| Parámetro                | Valor típico             |
+| ------------------------ | ------------------------ |
+| Tamaño de la población   | 100 – 500 individuos     |
+| Número de generaciones   | 100 – 1000               |
+| Probabilidad de cruce    | 0.7 (70%)                |
+| Probabilidad de mutación | 0.01 (1%)                |
+| Estrategia de selección  | Elitismo, torneo, ruleta |
+
+#### Paso 6: Criterio de Terminación y Resultado
+
+- El programa **más apto** de todas las generaciones es el resultado.
+- Se detiene cuando: se alcanza el número de generaciones, o la aptitud supera un umbral.
+
+---
+
+## 3. Estructuras de Datos: Árboles
+
+### ¿Qué es un Árbol?
+
+Un árbol es una estructura jerárquica de nodos donde:
+
+- **Nodo raíz:** el nodo superior (la operación principal del programa)
+- **Nodos internos:** funciones (operaciones)
+- **Hojas:** terminales (variables o constantes)
+
+### Ejemplo: La expresión `(a + b) * (c ^ e) + f`
+
+```
+            +
+           / \
+          *   f
+         / \
+        +   ^
+       / \ / \
+      a  b c  e
+```
+
+- **Nodo raíz:** `+`
+- **Nodos internos:** `*`, `+`, `^`
+- **Hojas (terminales):** `a`, `b`, `c`, `e`, `f`
+
+---
+
+## 4. Recorrido de Árboles Binarios
+
+Hay tres formas recursivas de recorrer un árbol. Son fundamentales en PG para numerar nodos, ejecutar programas y aplicar operadores genéticos.
+
+### Los Tres Recorridos
+
+| Recorrido     | Orden                      | Uso en PG                        |
+| ------------- | -------------------------- | -------------------------------- |
+| **Preorden**  | Raíz → Izquierda → Derecha | Numerar nodos (para cruce)       |
+| **Inorden**   | Izquierda → Raíz → Derecha | Notación infija (lectura humana) |
+| **Postorden** | Izquierda → Derecha → Raíz | Notación polaca (ejecución)      |
+
+### Ejemplo Completo
+
+Árbol de ejemplo (figura 4.9 del paper):
+
+```
+            A
+           / \
+          B   C
+         / \ / \
+        D  E F  G
+        |      / \
+        H     I   J
+                   \
+                    K
+```
+
+```
+PREORDEN  (Raíz-Izq-Der): A B D H E C F G I J K
+INORDEN   (Izq-Raíz-Der): H D B E A F C I G K J
+POSTORDEN (Izq-Der-Raíz): H D E B F I K J G C A
+```
+
+---
+
+## 5. Operadores Genéticos
+
+### 5.1 Reproducción
+
+El programa más apto se copia directamente a la nueva generación sin cambios. Garantiza que la mejor solución encontrada nunca se pierda (**elitismo**).
+
+### 5.2 Cruce (Crossover)
+
+El operador más importante de la PG. Combina partes de dos programas-padre para crear dos nuevos hijos.
+
+#### Pasos del Cruce
+
+```
+1. Seleccionar dos árboles T1 y T2 (proporcionalmente a su aptitud)
+2. Contar nodos: n1 = cuenta_nodos(T1), n2 = cuenta_nodos(T2)
+3. Elegir punto de cruce al azar: c1 en [1..n1], c2 en [1..n2]
+4. Intercambiar los subárboles que inician en c1 y c2
+```
+
+#### Propiedad Clave del Cruce
+
+> Al intercambiar **subárboles completos**, el cruce siempre produce programas **sintáctica y semánticamente válidos**.
+
+### 5.3 Mutación
+
+Cambia aleatoriamente un **gen** (nodo) del árbol por otro del mismo tipo:
+
+- Una **función** se reemplaza por otra función de la misma aridad.
+- Un **terminal** se reemplaza por otro terminal.
+
+---
+
+## 6. Ejecución del Programa-Árbol
+
+### Notación Polaca Inversa (Postfija)
+
+Para ejecutar un árbol-programa, se convierte a **notación polaca** (postorden) y luego se evalúa usando una **pila**.
+
+**Ejemplo:** El árbol de `a + b * c - d / e`
+
+```
+Postorden: a b c * + d e / -
+```
+
+---
+
+## 7. Aplicaciones
+
+### 7.1 Síntesis General de Programas
+
+El **CBGP (Code Building Genetic Programming)** permite evolucionar programas en lenguajes como Clojure, herramientas CAD (OpenSCAD, FreeCAD, InkScape).
+
+### 7.2 Programación de FPGAs
+
+**Hardware evolutivo** — los circuitos se diseñan y optimizan automáticamente usando PG, sin intervención humana en el diseño de compuertas.
+
+### 7.3 Regresión Simbólica
+
+Encontrar la **ecuación matemática** que mejor describe un conjunto de datos, sin saber de antemano la forma funcional.
+
+### 7.4 Control Óptimo
+
+Evolucionar **leyes de control** para sistemas complejos (robots, satélites, procesos industriales) sin necesitar un modelo matemático explícito.
+
+### 7.5 Machine Learning
+
+Selección automática de características, evolución de clasificadores, optimización de hiperparámetros.
+
+---
+
+## 8. Regresión Simbólica
+
+### Concepto
+
+Dado un conjunto de datos `(x1, x2, y)`, la PG busca una función `f` tal que `y ≈ f(x1, x2)`.
+
+**A diferencia de la regresión lineal**, no se asume ninguna forma funcional — la PG la descubre sola.
+
+### Configuración del Problema
+
+```
+Terminales T = {x1, x2, a, b, c, ...}   (variables + constantes a evolucionar)
+Funciones  F = {+, -, *, /}
+Aptitud    f_apt = 1 / (0.1 + Σ|y_real - y_calculado|)
+```
+
+### Función de Aptitud
+
+```python
+def funcion_aptitud(arbol, datos):
+    """
+    datos: lista de tuplas (x1, x2, y_real)
+    """
+    error_total = 0.0
+    for x1, x2, y_real in datos:
+        valores = {'x1': x1, 'x2': x2}
+        y_calc = evaluar_arbol(arbol, valores)
+        error_total += abs(y_real - y_calc)
+
+    return 1.0 / (0.1 + error_total)
+    # Máximo: 10.0 cuando error = 0
+```
+
+### Ejemplo Numérico del Paper
+
+Datos experimentales:
+
+| y   | x1  | x2   | y_calc (a=1.5, b=-1.0) | Error |
+| --- | --- | ---- | ---------------------- | ----- |
+| 0.0 | 3.0 | 2.0  | 1.5                    | 1.5   |
+| 0.5 | 2.0 | 1.0  | 0.5                    | ~0    |
+| 1.0 | 1.5 | 0.6  | 0.05                   | 0.95  |
+| 2.0 | 3.0 | 0.5  | 0.75                   | 1.25  |
+| 2.5 | 8.0 | 0.1  | 3.05                   | 0.55  |
+| 5.0 | 8.5 | -1.0 | 2.75                   | 2.25  |
+
+```
+Error total = 6.5
+f_apt = 1 / (0.1 + 6.5) = 0.1515
+```
+
+Después de 500 generaciones, la solución encontrada fue:
+
+```
+y = a*x1 - b*x2*x2 + c*(d*x1 + e*x2)/(x1 - x2 + f)
+```
+
+Con aptitud final = **2.53456**
+
+---
+
+## 9. MEP: Múltiples Expresiones en un Cromosoma
+
+La **Multi-Expression Programming (MEP)** es una variante de PG donde un solo cromosoma codifica múltiples expresiones (como un archivo de código con varias funciones).
+
+### Representación
+
+Inspirada en el **código de tres direcciones** de compiladores:
+
+```
+Gen 1:  x1              (terminal)
+Gen 2:  x2              (terminal)
+Gen 3:  + (1, 2)        → x1 + x2
+Gen 4:  * (1, 3)        → x1 * (x1 + x2)
+Gen 5:  - (4, 2)        → x1*(x1+x2) - x2
+```
+
+Cada gen tiene el potencial de ser la solución — se evalúan todos y se elige el mejor.
+
+### Herramienta MEPX
+
+Disponible en: https://www.mepx.org/
+
+```
+Parámetros típicos usados:
+- Num. subpoblaciones: 30
+- Subpopulation size: 100
+- Code length: 100
+- Crossover probability: 0.9
+- Mutation probability: 0.01
+- Tournament size: 2
+- Num. generations: 100
+- Num. runs: 30
+```
+
+---
+
+## 10. PG vs IA Generativa
+
+### Tabla Comparativa
+
+| Aspecto               | PG                                  | LLMs (Copilot, ChatGPT)       |
+| --------------------- | ----------------------------------- | ----------------------------- |
+| **Inspiración**       | Evolución biológica                 | Aprendizaje estadístico       |
+| **Generación**        | Evolución de árboles                | Predicción por contexto       |
+| **Control**           | Alto — defines aptitud y operadores | Bajo — solo defines el prompt |
+| **Velocidad**         | Lenta (muchas evaluaciones)         | Inmediata                     |
+| **Interpretabilidad** | Alta — el árbol es legible          | Opaca (caja negra)            |
+| **Creatividad**       | Alta — soluciones no convencionales | Alta — combina patrones       |
+| **Paralelismo**       | Toda la población a la vez          | Una solución por consulta     |
+| **Errores**           | Sintácticamente válidos siempre     | Puede "alucinar"              |
+
+### Similitudes
+
+- Ambas generan código sin programación manual directa.
+- Requieren validación humana.
+- Pueden producir soluciones creativas no triviales.
+
+---
+
+## 11. Ejercicio 2: Diseño de Circuito Lógico
+
+### Problema: Codificador de 7 Segmentos con PG
+
+Un **display de 7 segmentos** convierte un número BCD (4 bits: A, B, C, D) en 7 señales de control (a, b, c, d, e, f, g) que encienden los segmentos del display.
+
+```
+Segmentos:
+ _
+|_|  → a=top, b=top-right, c=bottom-right,
+|_|    d=bottom, e=bottom-left, f=top-left, g=middle
+```
+
+### Conjunto de Terminales
+
+```python
+T = {A, B, C, D}   # Bits del número BCD (entradas)
+# Donde el número N = 8*A + 4*B + 2*C + D
+# A es el bit más significativo
+```
+
+### Conjunto de Funciones
+
+```python
+F = {AND, OR, NOT, XOR, NAND, NOR}
+# Aridad 2: AND, OR, XOR, NAND, NOR
+# Aridad 1: NOT
+```
+
+### Tabla de Verdad (segmento 'a' — barra superior)
+
+| A   | B   | C   | D   | N   | Seg a |
+| --- | --- | --- | --- | --- | ----- |
+| 0   | 0   | 0   | 0   | 0   | 1     |
+| 0   | 0   | 0   | 1   | 1   | 0     |
+| 0   | 0   | 1   | 0   | 2   | 1     |
+| 0   | 0   | 1   | 1   | 3   | 1     |
+| 0   | 1   | 0   | 0   | 4   | 0     |
+| 0   | 1   | 0   | 1   | 5   | 1     |
+| 0   | 1   | 1   | 0   | 6   | 1     |
+| 0   | 1   | 1   | 1   | 7   | 1     |
+| 1   | 0   | 0   | 0   | 8   | 1     |
+| 1   | 0   | 0   | 1   | 9   | 1     |
+
+### Salida
+
+![Resultados de ejecución BCD en Python](/assignments/doc-04/images/BCDResults.png)
+
+### Código en MEPX para Python
+
+```Python
+#Generated by libmep version 2024.4.6.0-beta
+
+import math
+
+def mepx(x, outputs):
+  prg = [0] * 50
+  prg[0] = x[2]
+  prg[1] = x[0]
+  prg[2] = prg[1] + prg[1]
+  prg[3] = x[3]
+  prg[4] = x[2]
+  prg[5] = x[3]
+  prg[6] = prg[5] + prg[4]
+  prg[7] = x[3]
+  prg[8] = x[1]
+  prg[9] = x[0]
+  prg[10] = x[3]
+  prg[11] = x[1]
+  prg[12] = prg[3] - prg[8]
+  prg[13] = x[2]
+  prg[14] = x[1]
+  prg[15] = x[2]
+  prg[16] = prg[6] + prg[0]
+  prg[17] = prg[16] - prg[0]
+  prg[18] = x[2]
+  prg[19] = prg[3] - prg[17]
+  prg[20] = prg[1] + prg[0]
+  prg[21] = x[1]
+  prg[22] = x[2]
+  prg[23] = x[1]
+  prg[24] = x[2]
+  prg[25] = x[2]
+  prg[26] = x[1]
+  prg[27] = prg[24] + prg[9]
+  prg[28] = x[1]
+  prg[29] = prg[8] if prg[12] < prg[1] else prg[12] # ifalbcd
+  prg[30] = x[2]
+  prg[31] = prg[7] + prg[19]
+  prg[32] = x[1]
+  prg[33] = x[0]
+  prg[34] = prg[1] - prg[27]
+  prg[35] = x[3]
+  prg[36] = prg[29] + prg[13]
+  prg[37] = prg[20] - prg[29]
+  prg[38] = x[0]
+  prg[39] = prg[3] + prg[9]
+  prg[40] = prg[7] - prg[7]
+  prg[41] = x[2]
+  prg[42] = prg[1] + prg[39]
+  prg[43] = x[3]
+  prg[44] = prg[7] + prg[17]
+  prg[45] = x[3]
+  prg[46] = prg[2] - prg[6]
+  prg[47] = prg[20] - prg[20]
+  prg[48] = x[2]
+  prg[49] = prg[23] if prg[9] < prg[39] else prg[34] # ifalbcd
+
+  if prg[37] <= -1.000000:
+    outputs[0] = 0
+  else:
+    outputs[0] = 1
+
+#example of utilization ...
+
+x = [
+0.000000, 0.000000, 0.000000, 0.000000]
+
+outputs = [0]
+
+mepx(x, outputs)
+
+print("class = ", int(outputs[0]))
+
+```
+
+![Resultados de ejecución BCD en MEPX 1](/assignments/doc-04/images/BCDResultsMEPX1.png)
+![Resultados de ejecución BCD en MEPX 2](/assignments/doc-04/images/BCDResultsMEPX2.png)
+
+---
+
 ## Respuesta 3
 
 Las acciones (o terminales) principales que ejecutaría el robot para cumplir la función serían:
