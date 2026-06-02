@@ -1,10 +1,3 @@
-# /// script
-# requires-python = ">=3.11"
-# dependencies = [
-#   "SpeechRecognition"
-# ]
-# ///
-
 import turtle
 import speech_recognition as sr
 
@@ -18,6 +11,7 @@ player = turtle.Turtle()
 player.shape("turtle")
 player.color("red")
 player.penup()
+player.pendown()
 speed = 20
 
 def go_up():
@@ -55,9 +49,12 @@ while True:
 
     if "adelante" in command:
         go_up()
-    elif "atras" in command:
+    elif "atrás" in command:
         go_down()
     elif "izquierda" in command:
         turn_left()
     elif "derecha" in command:
         turn_right()
+    elif "salir" in command:
+        wn.bye()
+        break
